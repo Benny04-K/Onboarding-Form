@@ -1,8 +1,6 @@
 import { useState } from "react";
 
-const AIRTABLE_API_KEY = process.env.REACT_APP_AIRTABLE_API_KEY;
-const AIRTABLE_BASE_ID = process.env.REACT_APP_AIRTABLE_BASE_ID;
-const AIRTABLE_TABLE_NAME = process.env.REACT_APP_AIRTABLE_TABLE_NAME;
+const FORMSPREE_URL = "https://formspree.io/f/mzdodvzj";
 
 const COLOR_OPTIONS = [
   { label: "Ocean Blue", value: "ocean-blue", hex: "#2563EB" },
@@ -154,26 +152,24 @@ export default function App() {
     const selectedColor = COLOR_OPTIONS.find((c) => c.value === form.colorTheme);
 
     try {
-      const res = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE_NAME)}`, {
+      const res = await fetch(FORMSPREE_URL, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${AIRTABLE_API_KEY}`,
           "Content-Type": "application/json",
+          "Accept": "application/json",
         },
         body: JSON.stringify({
-          fields: {
-            "Business Name": form.businessName,
-            "About Service": form.aboutService,
-            "Services": form.services,
-            "Colour Theme": selectedColor ? selectedColor.label : form.colorTheme,
-            "Has Logo": form.hasLogo,
-            "Email": form.email,
-            "Phone": form.phone,
-            "WhatsApp": form.whatsapp,
-            "Address": form.address,
-            "Instagram": form.instagram,
-            "Facebook": form.facebook,
-          },
+          "Business Name": form.businessName,
+          "About Service": form.aboutService,
+          "Services": form.services,
+          "Colour Theme": selectedColor ? selectedColor.label : form.colorTheme,
+          "Has Logo": form.hasLogo,
+          "email": form.email,
+          "Phone": form.phone,
+          "WhatsApp": form.whatsapp,
+          "Address": form.address,
+          "Instagram": form.instagram,
+          "Facebook": form.facebook,
         }),
       });
 
