@@ -31,29 +31,30 @@ const initialForm = {
 
 function StepIndicator({ current }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 0, marginBottom: "2rem" }}>
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "2rem", width: "100%", boxSizing: "border-box" }}>
       {steps.map((label, i) => (
-        <div key={i} style={{ display: "flex", alignItems: "center" }}>
+        <div key={i} style={{ display: "flex", alignItems: "center", flex: i < steps.length - 1 ? 1 : "none" }}>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
             <div style={{
-              width: 36, height: 36, borderRadius: "50%",
+              width: 32, height: 32, borderRadius: "50%",
               background: i < current ? "#0F6E56" : i === current ? "#1D9E75" : "#E1F5EE",
               border: i === current ? "2.5px solid #0F6E56" : "2px solid " + (i < current ? "#0F6E56" : "#9FE1CB"),
               display: "flex", alignItems: "center", justifyContent: "center",
-              fontWeight: 600, fontSize: 14,
+              fontWeight: 600, fontSize: 13,
               color: i <= current ? "white" : "#5DCAA5",
               transition: "all 0.3s",
+              flexShrink: 0,
             }}>
               {i < current ? (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
               ) : i + 1}
             </div>
-            <span style={{ fontSize: 11, fontWeight: i === current ? 600 : 400, color: i === current ? "#0F6E56" : "#888", whiteSpace: "nowrap" }}>{label}</span>
+            <span style={{ fontSize: 10, fontWeight: i === current ? 600 : 400, color: i === current ? "#0F6E56" : "#888", whiteSpace: "nowrap", maxWidth: 70, textAlign: "center" }}>{label}</span>
           </div>
           {i < steps.length - 1 && (
-            <div style={{ width: 60, height: 2, background: i < current ? "#1D9E75" : "#C0DD97", margin: "0 6px", marginBottom: 22, transition: "background 0.3s" }} />
+            <div style={{ flex: 1, height: 2, background: i < current ? "#1D9E75" : "#C0DD97", margin: "0 6px", marginBottom: 22, transition: "background 0.3s", minWidth: 16 }} />
           )}
         </div>
       ))}
@@ -227,13 +228,13 @@ export default function App() {
           {step === 0 && (
             <div>
               <Field label="Business Name" required>
-                <Input value={form.businessName} onChange={set("businessName")} placeholder="e.g. Ravi's Bakery" />
+                <Input value={form.businessName} onChange={set("businessName")} placeholder="e.g. Nexora Technologies" />
               </Field>
               <Field label="About Your Service" required hint="Describe what your business does in 2–3 sentences.">
-                <Textarea value={form.aboutService} onChange={set("aboutService")} placeholder="We are a family-run bakery offering fresh pastries, cakes, and breads..." rows={4} />
+                <Textarea value={form.aboutService} onChange={set("aboutService")} placeholder="We provide end-to-end digital solutions including web development, branding, and marketing for SMEs..." rows={4} />
               </Field>
               <Field label="Services Offered" required hint="List your main services, separated by commas.">
-                <Textarea value={form.services} onChange={set("services")} placeholder="Custom cakes, Wedding cakes, Pastries, Corporate orders..." rows={3} />
+                <Textarea value={form.services} onChange={set("services")} placeholder="Web Design, SEO Optimization, Brand Identity, Social Media Management..." rows={3} />
               </Field>
             </div>
           )}
