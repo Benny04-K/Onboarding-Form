@@ -29,6 +29,18 @@ const initialForm = {
   facebook: "",
 };
 
+// ---- Dark theme palette (matches Rojar's Studio site) ----
+const ACCENT = "#22E6A8";        // bright mint/green accent
+const ACCENT_DIM = "#1B8F6B";    // muted green (completed states)
+const PAGE_BG = "linear-gradient(135deg, #0A0E1A 0%, #0D1526 50%, #0B1420 100%)";
+const CARD_BG = "#111827";
+const CARD_BORDER = "rgba(255,255,255,0.08)";
+const INPUT_BG = "#0B1120";
+const INPUT_BORDER = "rgba(255,255,255,0.12)";
+const TEXT_PRIMARY = "#F1F5F9";
+const TEXT_SECONDARY = "#94A3B8";
+const TEXT_MUTED = "#64748B";
+
 function StepIndicator({ current }) {
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "2rem", width: "100%", boxSizing: "border-box" }}>
@@ -37,11 +49,11 @@ function StepIndicator({ current }) {
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
             <div style={{
               width: 32, height: 32, borderRadius: "50%",
-              background: i < current ? "#0F6E56" : i === current ? "#1D9E75" : "#E1F5EE",
-              border: i === current ? "2.5px solid #0F6E56" : "2px solid " + (i < current ? "#0F6E56" : "#9FE1CB"),
+              background: i < current ? ACCENT_DIM : i === current ? ACCENT : "#1A2233",
+              border: i === current ? `2.5px solid ${ACCENT}` : "2px solid " + (i < current ? ACCENT_DIM : "#2A3448"),
               display: "flex", alignItems: "center", justifyContent: "center",
               fontWeight: 600, fontSize: 13,
-              color: i <= current ? "white" : "#5DCAA5",
+              color: i <= current ? "#06110D" : TEXT_MUTED,
               transition: "all 0.3s",
               flexShrink: 0,
             }}>
@@ -51,10 +63,10 @@ function StepIndicator({ current }) {
                 </svg>
               ) : i + 1}
             </div>
-            <span style={{ fontSize: 10, fontWeight: i === current ? 600 : 400, color: i === current ? "#0F6E56" : "#888", whiteSpace: "nowrap", maxWidth: 70, textAlign: "center" }}>{label}</span>
+            <span style={{ fontSize: 10, fontWeight: i === current ? 600 : 400, color: i === current ? ACCENT : TEXT_MUTED, whiteSpace: "nowrap", maxWidth: 70, textAlign: "center" }}>{label}</span>
           </div>
           {i < steps.length - 1 && (
-            <div style={{ flex: 1, height: 2, background: i < current ? "#1D9E75" : "#C0DD97", margin: "0 6px", marginBottom: 22, transition: "background 0.3s", minWidth: 16 }} />
+            <div style={{ flex: 1, height: 2, background: i < current ? ACCENT : "#2A3448", margin: "0 6px", marginBottom: 22, transition: "background 0.3s", minWidth: 16 }} />
           )}
         </div>
       ))}
@@ -65,19 +77,19 @@ function StepIndicator({ current }) {
 function Field({ label, required, children, hint }) {
   return (
     <div style={{ marginBottom: "1.25rem" }}>
-      <label style={{ display: "block", fontWeight: 500, fontSize: 14, color: "#374151", marginBottom: 6 }}>
-        {label} {required && <span style={{ color: "#E24B4A" }}>*</span>}
+      <label style={{ display: "block", fontWeight: 500, fontSize: 14, color: TEXT_PRIMARY, marginBottom: 6 }}>
+        {label} {required && <span style={{ color: "#F87171" }}>*</span>}
       </label>
       {children}
-      {hint && <p style={{ fontSize: 12, color: "#9CA3AF", marginTop: 4 }}>{hint}</p>}
+      {hint && <p style={{ fontSize: 12, color: TEXT_MUTED, marginTop: 4 }}>{hint}</p>}
     </div>
   );
 }
 
 const inputStyle = {
   width: "100%", boxSizing: "border-box", padding: "10px 14px",
-  borderRadius: 10, border: "1.5px solid #E5E7EB",
-  fontSize: 15, outline: "none", background: "#fff",
+  borderRadius: 10, border: `1.5px solid ${INPUT_BORDER}`,
+  fontSize: 15, outline: "none", background: INPUT_BG, color: TEXT_PRIMARY,
   fontFamily: "inherit", transition: "border-color 0.2s",
 };
 
@@ -86,7 +98,7 @@ function Input({ value, onChange, placeholder, type = "text" }) {
   return (
     <input
       type={type} value={value} onChange={onChange} placeholder={placeholder}
-      style={{ ...inputStyle, borderColor: focused ? "#1D9E75" : "#E5E7EB" }}
+      style={{ ...inputStyle, borderColor: focused ? ACCENT : INPUT_BORDER }}
       onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
     />
   );
@@ -97,7 +109,7 @@ function Textarea({ value, onChange, placeholder, rows = 3 }) {
   return (
     <textarea
       value={value} onChange={onChange} placeholder={placeholder} rows={rows}
-      style={{ ...inputStyle, resize: "vertical", borderColor: focused ? "#1D9E75" : "#E5E7EB" }}
+      style={{ ...inputStyle, resize: "vertical", borderColor: focused ? ACCENT : INPUT_BORDER }}
       onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
     />
   );
@@ -185,18 +197,18 @@ export default function App() {
 
   if (submitted) {
     return (
-      <div style={{ minHeight: "100vh", background: "linear-gradient(135deg, #E1F5EE 0%, #EAF3DE 100%)", display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
-        <div style={{ background: "#fff", borderRadius: 20, padding: "3rem 2.5rem", maxWidth: 460, width: "100%", textAlign: "center", boxShadow: "0 4px 32px rgba(15,110,86,0.10)" }}>
-          <div style={{ width: 72, height: 72, borderRadius: "50%", background: "#E1F5EE", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1.5rem" }}>
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+      <div style={{ minHeight: "100vh", background: PAGE_BG, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
+        <div style={{ background: CARD_BG, borderRadius: 20, padding: "3rem 2.5rem", maxWidth: 460, width: "100%", textAlign: "center", boxShadow: "0 4px 32px rgba(0,0,0,0.5)", border: `1px solid ${CARD_BORDER}` }}>
+          <div style={{ width: 72, height: 72, borderRadius: "50%", background: "rgba(34,230,168,0.12)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1.5rem" }}>
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
           </div>
-          <h2 style={{ fontSize: 24, fontWeight: 700, color: "#0F6E56", margin: "0 0 0.75rem" }}>You're all set!</h2>
-          <p style={{ color: "#6B7280", fontSize: 15, lineHeight: 1.6, margin: "0 0 1.5rem" }}>
-            Thanks, <strong>{form.businessName}</strong>! We've received your details and will start building your website shortly. We'll reach out to you at <strong>{form.email}</strong>.
+          <h2 style={{ fontSize: 24, fontWeight: 700, color: ACCENT, margin: "0 0 0.75rem" }}>You're all set!</h2>
+          <p style={{ color: TEXT_SECONDARY, fontSize: 15, lineHeight: 1.6, margin: "0 0 1.5rem" }}>
+            Thanks, <strong style={{ color: TEXT_PRIMARY }}>{form.businessName}</strong>! We've received your details and will start building your website shortly. We'll reach out to you at <strong style={{ color: TEXT_PRIMARY }}>{form.email}</strong>.
           </p>
-          <div style={{ background: "#F0FDF4", border: "1px solid #BBF7D0", borderRadius: 10, padding: "1rem 1.25rem", textAlign: "left" }}>
-            <p style={{ fontSize: 13, color: "#166534", margin: 0, fontWeight: 500 }}>What happens next?</p>
-            <ul style={{ margin: "0.5rem 0 0", paddingLeft: 18, fontSize: 13, color: "#15803D", lineHeight: 1.8 }}>
+          <div style={{ background: "rgba(34,230,168,0.06)", border: "1px solid rgba(34,230,168,0.25)", borderRadius: 10, padding: "1rem 1.25rem", textAlign: "left" }}>
+            <p style={{ fontSize: 13, color: ACCENT, margin: 0, fontWeight: 500 }}>What happens next?</p>
+            <ul style={{ margin: "0.5rem 0 0", paddingLeft: 18, fontSize: 13, color: TEXT_SECONDARY, lineHeight: 1.8 }}>
               <li>Our team reviews your details</li>
               <li>We begin your website design</li>
               <li>You'll get a preview in 3–5 business days</li>
@@ -208,20 +220,20 @@ export default function App() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: "linear-gradient(135deg, #E1F5EE 0%, #EAF3DE 100%)", display: "flex", alignItems: "center", justifyContent: "center", padding: 24, fontFamily: "'Segoe UI', system-ui, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: PAGE_BG, display: "flex", alignItems: "center", justifyContent: "center", padding: 24, fontFamily: "'Segoe UI', system-ui, sans-serif" }}>
       <div style={{ width: "100%", maxWidth: 560 }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#0F6E56", color: "white", padding: "6px 16px", borderRadius: 20, fontSize: 13, fontWeight: 600, marginBottom: 12 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "linear-gradient(90deg, #1DE9B6, #7C3AED)", color: "#06110D", padding: "6px 16px", borderRadius: 20, fontSize: 13, fontWeight: 700, marginBottom: 12 }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
             Client Onboarding
           </div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: "#0F6E56", margin: "0 0 6px", letterSpacing: "-0.5px" }}>Let's build your website</h1>
-          <p style={{ color: "#6B7280", fontSize: 15, margin: 0 }}>Fill in your details — takes about 3 minutes</p>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: TEXT_PRIMARY, margin: "0 0 6px", letterSpacing: "-0.5px" }}>Let's build your website</h1>
+          <p style={{ color: TEXT_SECONDARY, fontSize: 15, margin: 0 }}>Fill in your details — takes about 3 minutes</p>
         </div>
 
         {/* Card */}
-        <div style={{ background: "#fff", borderRadius: 20, padding: "2rem 2rem 1.75rem", boxShadow: "0 4px 32px rgba(15,110,86,0.10)" }}>
+        <div style={{ background: CARD_BG, borderRadius: 20, padding: "2rem 2rem 1.75rem", boxShadow: "0 4px 32px rgba(0,0,0,0.5)", border: `1px solid ${CARD_BORDER}` }}>
           <StepIndicator current={step} />
 
           {/* Step 0 */}
@@ -269,14 +281,14 @@ export default function App() {
                       key={c.value}
                       onClick={() => setForm((f) => ({ ...f, colorTheme: c.value }))}
                       style={{
-                        border: form.colorTheme === c.value ? `2.5px solid ${c.hex}` : "1.5px solid #E5E7EB",
+                        border: form.colorTheme === c.value ? `2.5px solid ${c.hex}` : `1.5px solid ${INPUT_BORDER}`,
                         borderRadius: 12, padding: "10px 8px", cursor: "pointer",
                         textAlign: "center", transition: "all 0.2s",
-                        background: form.colorTheme === c.value ? c.hex + "10" : "#fff",
+                        background: form.colorTheme === c.value ? c.hex + "1A" : INPUT_BG,
                       }}
                     >
                       <div style={{ width: 28, height: 28, borderRadius: "50%", background: c.hex, margin: "0 auto 6px" }} />
-                      <span style={{ fontSize: 11, fontWeight: 500, color: form.colorTheme === c.value ? c.hex : "#6B7280" }}>{c.label}</span>
+                      <span style={{ fontSize: 11, fontWeight: 500, color: form.colorTheme === c.value ? c.hex : TEXT_SECONDARY }}>{c.label}</span>
                     </div>
                   ))}
                 </div>
@@ -290,10 +302,10 @@ export default function App() {
                       onClick={() => setForm((f) => ({ ...f, hasLogo: opt }))}
                       style={{
                         flex: 1, padding: "12px 16px", borderRadius: 12, cursor: "pointer",
-                        border: form.hasLogo === opt ? "2px solid #1D9E75" : "1.5px solid #E5E7EB",
-                        background: form.hasLogo === opt ? "#E1F5EE" : "#fff",
+                        border: form.hasLogo === opt ? `2px solid ${ACCENT}` : `1.5px solid ${INPUT_BORDER}`,
+                        background: form.hasLogo === opt ? "rgba(34,230,168,0.10)" : INPUT_BG,
                         textAlign: "center", fontSize: 14, fontWeight: 500,
-                        color: form.hasLogo === opt ? "#0F6E56" : "#6B7280",
+                        color: form.hasLogo === opt ? ACCENT : TEXT_SECONDARY,
                         transition: "all 0.2s",
                       }}
                     >
@@ -314,9 +326,9 @@ export default function App() {
 
           {/* Error */}
           {error && (
-            <div style={{ background: "#FEF2F2", border: "1px solid #FECACA", borderRadius: 10, padding: "10px 14px", marginBottom: "1.25rem", display: "flex", alignItems: "center", gap: 8 }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              <span style={{ fontSize: 13, color: "#DC2626" }}>{error}</span>
+            <div style={{ background: "rgba(220,38,38,0.10)", border: "1px solid rgba(248,113,113,0.35)", borderRadius: 10, padding: "10px 14px", marginBottom: "1.25rem", display: "flex", alignItems: "center", gap: 8 }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F87171" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span style={{ fontSize: 13, color: "#F87171" }}>{error}</span>
             </div>
           )}
 
@@ -325,7 +337,7 @@ export default function App() {
             {step > 0 && (
               <button
                 onClick={prev}
-                style={{ flex: 1, padding: "12px 0", borderRadius: 12, border: "1.5px solid #E5E7EB", background: "#fff", fontSize: 15, fontWeight: 600, color: "#374151", cursor: "pointer" }}
+                style={{ flex: 1, padding: "12px 0", borderRadius: 12, border: `1.5px solid ${INPUT_BORDER}`, background: "transparent", fontSize: 15, fontWeight: 600, color: TEXT_PRIMARY, cursor: "pointer" }}
               >
                 ← Back
               </button>
@@ -333,7 +345,7 @@ export default function App() {
             {step < 2 ? (
               <button
                 onClick={next}
-                style={{ flex: 2, padding: "12px 0", borderRadius: 12, border: "none", background: "#0F6E56", color: "white", fontSize: 15, fontWeight: 700, cursor: "pointer", letterSpacing: 0.3 }}
+                style={{ flex: 2, padding: "12px 0", borderRadius: 12, border: "none", background: "linear-gradient(90deg, #1DE9B6, #17C99A)", color: "#06110D", fontSize: 15, fontWeight: 700, cursor: "pointer", letterSpacing: 0.3 }}
               >
                 Continue →
               </button>
@@ -341,7 +353,7 @@ export default function App() {
               <button
                 onClick={submit}
                 disabled={submitting}
-                style={{ flex: 2, padding: "12px 0", borderRadius: 12, border: "none", background: submitting ? "#9FE1CB" : "#0F6E56", color: "white", fontSize: 15, fontWeight: 700, cursor: submitting ? "not-allowed" : "pointer" }}
+                style={{ flex: 2, padding: "12px 0", borderRadius: 12, border: "none", background: submitting ? "#1B4A3D" : "linear-gradient(90deg, #1DE9B6, #17C99A)", color: submitting ? "#7FBFA9" : "#06110D", fontSize: 15, fontWeight: 700, cursor: submitting ? "not-allowed" : "pointer" }}
               >
                 {submitting ? "Submitting..." : "Submit & Get Started 🚀"}
               </button>
@@ -349,7 +361,7 @@ export default function App() {
           </div>
         </div>
 
-        <p style={{ textAlign: "center", fontSize: 12, color: "#9CA3AF", marginTop: 16 }}>
+        <p style={{ textAlign: "center", fontSize: 12, color: TEXT_MUTED, marginTop: 16 }}>
           Your information is secure and used only to build your website.
         </p>
       </div>
